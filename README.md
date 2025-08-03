@@ -1,8 +1,27 @@
-# Chatbot and Dev tools to actually know what's going on inside the model
-Access to direct model if needed, or you **choose** to turn on, or send more context :D
+# Transparent AI
 
-## All outputs must be clearly explained as far as system prompt and RAG or search or anything the model does
-Should be some combination of
-- which model
-- what context (huge)
-- output
+Tools to inspect exactly what prompts and context reach a model and what it
+returns.  The goal is to make model interactions auditable for developers.
+
+## Design Goals
+
+- **Which model**: easily switch between GPT-4o or any other supported model.
+- **What context**: show the final system prompt, retrieved documents and user
+  message.
+- **How output is generated**: expose the raw completion and token logprobs.
+- **Bypass guardrails**: a dev mode sends only the user message when needed.
+
+## Example
+
+```bash
+export OPENAI_API_KEY="sk-..."
+python transparent_ai.py "What is RAG?"
+```
+
+Set `DEV_MODE=1` to bypass the system prompt and RAG pipeline.
+
+## Extending
+
+`TransparentAI` accepts a `rag_fn` callback for retrieving context.  The
+included `simple_rag` is a placeholder; replace it with a search or database
+lookup to build a complete RAG system.
